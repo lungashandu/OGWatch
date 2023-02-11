@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Orient Garden Neighbourhood Watch</string>
+    <string name="label_stolen_items">Stolen Item(s)</string>
+    <string name="complex_number">House No. </string>
+</resources>

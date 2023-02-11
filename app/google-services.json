@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "671324227842",
+    "project_id": "og-neighbourhood-watch",
+    "storage_bucket": "og-neighbourhood-watch.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671324227842:android:06b11a3a2f3045729eda1b",
+        "android_client_info": {
+          "package_name": "com.example.orientgardenneighbourhoodwatch"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFUo8Sy0xmrLuDxc21T2BEqWYycEz2w0E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
