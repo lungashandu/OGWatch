@@ -1,6 +1,7 @@
 package com.example.orientgardenneighbourhoodwatch;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,12 +35,17 @@ public class MainActivity extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-
+                incidentsList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Incident incident = dataSnapshot.getValue(Incident.class);
+                    incidentsList.add(incident);
+                }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
-
+                Log.e(MainActivity.class.getSimpleName(), "Failed to read value", error.toException());
             }
         });
     }

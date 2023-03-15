@@ -31,9 +31,9 @@ public class IncidentAdapter extends ArrayAdapter<Incident> {
         TextView descriptionTextView = listItemView.findViewById(R.id.description);
         descriptionTextView.setText(description);
 
-        String houseNumber = currentIncident.getHouse_number();
-        TextView houseNumberTextView = listItemView.findViewById(R.id.complex_number);
-        houseNumberTextView.setText(R.string.complex_number + houseNumber);
+        String houseNumber = currentIncident.getHouseNumber();
+        TextView houseNumberTextView = listItemView.findViewById(R.id.house_number);
+        houseNumberTextView.setText(houseNumber);
 
         return listItemView;
     }
