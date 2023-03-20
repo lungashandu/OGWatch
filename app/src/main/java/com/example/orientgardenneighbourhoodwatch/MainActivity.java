@@ -1,11 +1,14 @@
 package com.example.orientgardenneighbourhoodwatch;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,6 +49,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError error) {
                 Log.e(MainActivity.class.getSimpleName(), "Failed to read value", error.toException());
+            }
+        });
+
+
+        FloatingActionButton fab = findViewById(R.id.add_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, CreatePost.class);
+                MainActivity.this.startActivity(intent);
             }
         });
     }
