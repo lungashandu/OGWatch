@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final ArrayList<Incident> incidentsList = new ArrayList<>();
     private IncidentAdapter adapter;
+    private ListView incidentListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         adapter = new IncidentAdapter(this, incidentsList);
-        ListView incidentListView = findViewById(R.id.main_ListView);
+        incidentListView = findViewById(R.id.main_ListView);
         incidentListView.setAdapter(adapter);
 
 
@@ -57,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String listViewCount = Integer.toString(incidentListView.getCount() + 1);
                 Intent intent = new Intent(MainActivity.this, CreatePost.class);
+                intent.putExtra("count", listViewCount);
                 MainActivity.this.startActivity(intent);
             }
         });
