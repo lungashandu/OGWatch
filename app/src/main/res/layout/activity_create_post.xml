@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".CreatePost">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_weight="4"
+        android:orientation="vertical"
+        android:paddingBottom="24dp"
+        tools:ignore="UselessParent">
+
+        <EditText
+            android:id="@+id/houseNumber_editText"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:background="@null"
+            android:hint="@string/complex_number"
+            android:inputType="number"
+            android:maxLength="2"
+            android:paddingStart="8dp"
+            android:singleLine="true"
+            tools:ignore="Autofill" />
+
+        <EditText
+            android:id="@+id/stolenItem_editText"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@null"
+            android:hint="@string/label_stolen_items"
+            android:inputType="text"
+            android:paddingStart="8dp"
+            android:singleLine="true"
+            tools:ignore="Autofill" />
+
+        <EditText
+            android:id="@+id/description_editText"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@null"
+            android:ellipsize="end"
+            android:gravity="top"
+            android:hint="@string/description"
+            android:inputType="textMultiLine"
+            android:maxLength="360"
+            android:maxLines="12"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:scrollbars="vertical"
+            tools:ignore="Autofill" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/createPost_button"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        android:layout_weight="1"
+        android:text="@string/create_post" />
+
+</LinearLayout>

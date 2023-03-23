@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "671324227842",
+    "firebase_url": "https://og-neighbourhood-watch-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "og-neighbourhood-watch",
     "storage_bucket": "og-neighbourhood-watch.appspot.com"
   },
