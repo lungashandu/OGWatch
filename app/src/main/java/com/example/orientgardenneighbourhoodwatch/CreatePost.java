@@ -53,6 +53,9 @@ public class CreatePost extends AppCompatActivity {
                         stolenItemEditText.setText("");
                         descriptionEditText.setText("");
                         Toast.makeText(CreatePost.this, "Incident Added Successfully", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(CreatePost.this, MainActivity.class);
+                        CreatePost.this.startActivity(intent);
                     }
                 });
             }
