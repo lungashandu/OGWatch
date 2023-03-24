@@ -19,23 +19,12 @@ public class Incident {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getHouseNumber() {
         return houseNumber;
-    }
-
-    public void setHouseNumber(String houseNumber) {
-        this.houseNumber = houseNumber;
     }
 
     public String getStolenItem() {
         return stolenItem;
     }
 
-    public void setStolenItem(String stolenItem) {
-        this.stolenItem = stolenItem;
-    }
 }

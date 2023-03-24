@@ -8,14 +8,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class CreatePost extends AppCompatActivity {
-    private Intent intent;
-    private String value;
     private String incidentID;
     private DatabaseReference reference;
 
@@ -24,8 +20,8 @@ public class CreatePost extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
 
-        intent = getIntent();
-        value = intent.getStringExtra("count");
+        Intent intentIncident = getIntent();
+        String value = intentIncident.getStringExtra("count");
         incidentID = "incident_" + value;
 
         reference = FirebaseDatabase.getInstance().getReference();
@@ -46,17 +42,14 @@ public class CreatePost extends AppCompatActivity {
 
             } else {
                 Incident incident = new Incident(description, houseNumber, stolenItem);
-                reference.child("ogwatchDB").child(incidentID).setValue(incident).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(Task<Void> task) {
-                        houseNumberEditText.setText("");
-                        stolenItemEditText.setText("");
-                        descriptionEditText.setText("");
-                        Toast.makeText(CreatePost.this, "Incident Added Successfully", Toast.LENGTH_SHORT).show();
+                reference.child("ogwatchDB").child(incidentID).setValue(incident).addOnCompleteListener(task -> {
+                    houseNumberEditText.setText("");
+                    stolenItemEditText.setText("");
+                    descriptionEditText.setText("");
+                    Toast.makeText(CreatePost.this, "Incident Added Successfully", Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(CreatePost.this, MainActivity.class);
-                        CreatePost.this.startActivity(intent);
-                    }
+                    Intent intent = new Intent(CreatePost.this, MainActivity.class);
+                    CreatePost.this.startActivity(intent);
                 });
             }
 
