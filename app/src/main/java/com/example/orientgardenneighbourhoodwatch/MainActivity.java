@@ -22,8 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final ArrayList<Incident> incidentsList = new ArrayList<>();
     private IncidentAdapter adapter;
-    private ListView incidentListView;
-    private String listViewCount;
+    private String itemCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         adapter = new IncidentAdapter(this, incidentsList);
-        incidentListView = findViewById(R.id.main_ListView);
+        ListView incidentListView = findViewById(R.id.main_ListView);
         incidentListView.setAdapter(adapter);
 
 
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NotNull DataSnapshot snapshot) {
                 incidentsList.clear();
-                listViewCount = Integer.toString((int) (snapshot.getChildrenCount() + 1));
+                itemCount = Integer.toString((int) (snapshot.getChildrenCount() + 1));
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Incident incident = dataSnapshot.getValue(Incident.class);
                     incidentsList.add(incident);
@@ -66,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fab = findViewById(R.id.add_fab);
         fab.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, CreatePost.class);
-            intent.putExtra("count", listViewCount);
+            intent.putExtra("count", itemCount);
             MainActivity.this.startActivity(intent);
         });
     }

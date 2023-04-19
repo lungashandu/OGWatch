@@ -27,6 +27,7 @@
             android:inputType="number"
             android:maxLength="2"
             android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:singleLine="true"
             tools:ignore="Autofill" />
 
@@ -41,13 +42,14 @@
             android:hint="@string/label_stolen_items"
             android:inputType="text"
             android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:singleLine="true"
             tools:ignore="Autofill" />
 
         <EditText
             android:id="@+id/description_editText"
             android:layout_width="match_parent"
-            android:layout_height="240dp"
+            android:layout_height="200dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
@@ -60,19 +62,59 @@
             android:maxLines="12"
             android:paddingStart="8dp"
             android:paddingTop="8dp"
+            android:paddingEnd="8dp"
             android:scrollbars="vertical"
             tools:ignore="Autofill" />
+
+        <LinearLayout
+            android:id="@+id/selected_image_LinearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:contentDescription="@string/icon_for_done"
+                android:src="@drawable/ic_baseline_check_circle_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="8dp"
+                android:text="@string/image_selected"
+                android:textColor="@color/teal_700"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/add_imageTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="18dp"
+            android:text="@string/add_image"
+            android:textColor="@color/purple_700"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/createPost_button"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="24dp"
         android:layout_weight="1"
+        android:maxHeight="56dp"
         android:text="@string/create_post" />
 
 </LinearLayout>
