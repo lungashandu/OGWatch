@@ -1,9 +1,11 @@
 package com.example.orientgardenneighbourhoodwatch;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -12,15 +14,20 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class CreatePost extends AppCompatActivity {
     private String incidentID;
-    private DatabaseReference reference;
+    private DatabaseReference databaseReference;
+    private StorageReference storageReference;
     private static final int PICK_IMAGE = 1;
     private Uri selectedImageURI;
     private TextView addImageTextView;
@@ -37,7 +44,8 @@ public class CreatePost extends AppCompatActivity {
         Intent intentIncident = getIntent();
         incidentID = intentIncident.getStringExtra("count");
 
-        reference = FirebaseDatabase.getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         EditText houseNumberEditText = findViewById(R.id.houseNumber_editText);
         EditText stolenItemEditText = findViewById(R.id.stolenItem_editText);
@@ -61,13 +69,29 @@ public class CreatePost extends AppCompatActivity {
                 Toast.makeText(CreatePost.this, "Please fill all available text fields", Toast.LENGTH_SHORT).show();
 
             } else {
-                Incident incident = new Incident(description, houseNumber, stolenItem);
+                //Incident incident = new Incident(description, houseNumber, stolenItem);
 
                 ExecutorService executorService = Executors.newSingleThreadExecutor();
                 executorService.execute(new Runnable() {
                     @Override
                     public void run() {
-                        reference.child("ogwatchDB").child(incidentID).setValue(incident);
+
+                        if (selectedImageURI != null) {
+                            StorageReference fileReference = storageReference.child(System.currentTimeMillis() + "." + getFileExtension(selectedImageURI));
+                            fileReference.putFile(selectedImageURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            Incident incident = new Incident(description, houseNumber, stolenItem, uri.toString());
+                                            databaseReference.child("ogwatchDB").child(incidentID).setValue(incident);
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                        //databaseReference.child("ogwatchDB").child(incidentID).setValue(incident);
 
                         runOnUiThread(new Runnable() {
                             @Override
@@ -87,6 +111,7 @@ public class CreatePost extends AppCompatActivity {
             }
 
         });
+
     }
 
     @Override
@@ -98,6 +123,12 @@ public class CreatePost extends AppCompatActivity {
             addImageTextView.setVisibility(View.GONE);
             selectedImageLL.setVisibility(View.VISIBLE);
         }
+    }
+
+    private String getFileExtension(Uri mUri) {
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(mUri));
     }
 
 }
