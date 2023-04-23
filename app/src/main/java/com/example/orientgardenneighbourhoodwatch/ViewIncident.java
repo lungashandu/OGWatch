@@ -14,12 +14,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ViewIncident extends AppCompatActivity {
-    private FirebaseDatabase database;
-    private DatabaseReference reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +30,8 @@ public class ViewIncident extends AppCompatActivity {
         String value = intent.getStringExtra("key");
         String path = "ogwatchDB/" + value;
 
-        database = FirebaseDatabase.getInstance();
-        reference = database.getReference(path);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference(path);
 
         TextView stolenItem = findViewById(R.id.vp_stolenItemTextView);
         TextView houseNumber = findViewById(R.id.vp_houseNumberTextView);
@@ -39,27 +39,22 @@ public class ViewIncident extends AppCompatActivity {
         ImageView incidentImage = findViewById(R.id.vp_stolenItemImageView);
 
         ExecutorService executorService = Executors.newSingleThreadExecutor();
-        executorService.execute(new Runnable() {
+        executorService.execute(() -> reference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void run() {
-                reference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        Incident incident = snapshot.getValue(Incident.class);
-                        stolenItem.setText(incident.getStolenItem());
-                        houseNumber.setText(incident.getHouseNumber());
-                        description.setText(incident.getDescription());
+            public void onDataChange(@NotNull DataSnapshot snapshot) {
+                Incident incident = snapshot.getValue(Incident.class);
+                stolenItem.setText(incident.getStolenItem());
+                houseNumber.setText(incident.getHouseNumber());
+                description.setText(incident.getDescription());
 
-                        Picasso.get().load(incident.getImageUrl()).into(incidentImage);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-
-                    }
-                });
+                Picasso.get().load(incident.getImageUrl()).into(incidentImage);
             }
-        });
+
+            @Override
+            public void onCancelled(@NotNull DatabaseError error) {
+
+            }
+        }));
 
 
     }

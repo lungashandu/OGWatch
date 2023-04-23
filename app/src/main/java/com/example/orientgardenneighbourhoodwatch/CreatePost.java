@@ -30,6 +30,7 @@ public class CreatePost extends AppCompatActivity {
     private StorageReference storageReference;
     private static final int PICK_IMAGE = 1;
     private Uri selectedImageURI;
+    private Button createPostButton;
     private TextView addImageTextView;
     private LinearLayout selectedImageLL;
 
@@ -50,7 +51,7 @@ public class CreatePost extends AppCompatActivity {
         EditText houseNumberEditText = findViewById(R.id.houseNumber_editText);
         EditText stolenItemEditText = findViewById(R.id.stolenItem_editText);
         EditText descriptionEditText = findViewById(R.id.description_editText);
-        Button createPostButton = findViewById(R.id.createPost_button);
+        createPostButton = findViewById(R.id.createPost_button);
 
         addImageTextView = findViewById(R.id.add_imageTextView);
         addImageTextView.setOnClickListener(view -> {
@@ -69,7 +70,6 @@ public class CreatePost extends AppCompatActivity {
                 Toast.makeText(CreatePost.this, "Please fill all available text fields", Toast.LENGTH_SHORT).show();
 
             } else {
-                //Incident incident = new Incident(description, houseNumber, stolenItem);
 
                 ExecutorService executorService = Executors.newSingleThreadExecutor();
                 executorService.execute(new Runnable() {
@@ -91,7 +91,6 @@ public class CreatePost extends AppCompatActivity {
                                 }
                             });
                         }
-                        //databaseReference.child("ogwatchDB").child(incidentID).setValue(incident);
 
                         runOnUiThread(new Runnable() {
                             @Override
@@ -122,6 +121,7 @@ public class CreatePost extends AppCompatActivity {
             selectedImageURI = data.getData();
             addImageTextView.setVisibility(View.GONE);
             selectedImageLL.setVisibility(View.VISIBLE);
+            createPostButton.setEnabled(true);
         }
     }
 

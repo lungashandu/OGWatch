@@ -17,12 +17,14 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
 
     private final ArrayList<Incident> incidentsList = new ArrayList<>();
     private IncidentAdapter adapter;
     private String itemCount;
+    private int numberOfItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +43,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NotNull DataSnapshot snapshot) {
                 incidentsList.clear();
-                itemCount = Integer.toString((int) (snapshot.getChildrenCount() + 1));
+                numberOfItems = (int) snapshot.getChildrenCount();
+                itemCount = Integer.toString(numberOfItems + 1);
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Incident incident = dataSnapshot.getValue(Incident.class);
                     incidentsList.add(incident);
                 }
+                Collections.reverse(incidentsList);
                 adapter.notifyDataSetChanged();
             }
 
@@ -56,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         incidentListView.setOnItemClickListener((adapterView, view, position, l) -> {
-            String databaseKey = Integer.toString(position + 1);
+            String databaseKey = getPositionOfItem(position);
             Intent intent = new Intent(MainActivity.this, ViewIncident.class);
             intent.putExtra("key", databaseKey);
             MainActivity.this.startActivity(intent);
@@ -68,5 +72,11 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("count", itemCount);
             MainActivity.this.startActivity(intent);
         });
+    }
+
+    // Due to the listview being reversed, the position of the selected item is not the same as
+    // the database key for each child.
+    private String getPositionOfItem(int selectedItem) {
+        return Integer.toString(numberOfItems - selectedItem);
     }
 }
