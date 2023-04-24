@@ -13,6 +13,7 @@
         android:layout_weight="4"
         android:orientation="vertical"
         android:paddingBottom="24dp"
+        android:background="@drawable/rounded_edit_text"
         tools:ignore="UselessParent">
 
         <EditText
@@ -22,7 +23,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
-            android:background="@null"
+            android:background="@drawable/rounded_edit_text"
             android:hint="@string/complex_number"
             android:inputType="number"
             android:maxLength="2"
@@ -38,7 +39,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@null"
+            android:background="@drawable/rounded_edit_text"
             android:hint="@string/label_stolen_items"
             android:inputType="text"
             android:paddingStart="8dp"
@@ -53,7 +54,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@null"
+            android:background="@drawable/rounded_edit_text"
             android:ellipsize="end"
             android:gravity="top"
             android:hint="@string/description"
@@ -100,7 +101,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="18dp"
             android:text="@string/add_image"
-            android:textColor="@color/purple_700"
+            android:textColor="@color/accent_blue"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -114,6 +115,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="24dp"
         android:layout_weight="1"
+        android:background="@drawable/rounded_button"
         android:maxHeight="56dp"
         android:enabled="false"
         android:text="@string/create_post" />

@@ -15,12 +15,12 @@
         android:theme="@style/Theme.OrientGardenNeighbourhoodWatch">
         <activity
             android:name=".ViewIncident"
-            android:label="@string/post_incident"
+            android:label="@string/view_incident"
             android:parentActivityName=".MainActivity" />
 
         <activity
             android:name=".CreatePost"
-            android:label="@string/view_incident"
+            android:label="@string/post_incident"
             android:parentActivityName=".MainActivity"
             android:windowSoftInputMode="adjustPan" />
 

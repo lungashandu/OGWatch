@@ -52,7 +52,7 @@ public class ViewIncident extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NotNull DatabaseError error) {
-
+                incidentImage.setImageResource(R.drawable.ic_baseline_no_photography_24);
             }
         }));
 
