@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,6 +21,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ViewIncident extends AppCompatActivity {
+    private Incident incident;
+    private String imageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +45,13 @@ public class ViewIncident extends AppCompatActivity {
         executorService.execute(() -> reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NotNull DataSnapshot snapshot) {
-                Incident incident = snapshot.getValue(Incident.class);
+                incident = snapshot.getValue(Incident.class);
                 stolenItem.setText(incident.getStolenItem());
                 houseNumber.setText(incident.getHouseNumber());
                 description.setText(incident.getDescription());
+                imageUrl = incident.getImageUrl();
 
-                Picasso.get().load(incident.getImageUrl()).into(incidentImage);
+                Picasso.get().load(imageUrl).into(incidentImage);
             }
 
             @Override
@@ -56,6 +60,14 @@ public class ViewIncident extends AppCompatActivity {
             }
         }));
 
+        incidentImage.setOnClickListener(view -> {
+            showImageDialog();
+        });
+    }
 
+    private void showImageDialog() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        ViewImageFragment viewImageFragment = ViewImageFragment.newInstance(imageUrl);
+        viewImageFragment.show(fragmentManager, "fragment_view_image");
     }
 }
