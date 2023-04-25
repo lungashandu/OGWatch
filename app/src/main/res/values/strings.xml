@@ -26,4 +26,5 @@
     <string name="image_selected">Image Selected</string>
     <string name="icon_for_done">Icon for done</string>
     <string name="image_stolen_item">Image of stolen item</string>
+    <string name="signin">Sign In</string>
 </resources>
