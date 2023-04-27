@@ -19,6 +19,12 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="submitButton" parent="@android:style/Widget.Button">
+        <item name="android:background">@color/secondary_colour</item>
+        <item name="android:textColor">@color/white</item>
+
+    </style>
+
     <style name="Theme.OrientGardenNeighbourhoodWatch.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.OrientGardenNeighbourhoodWatch.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
