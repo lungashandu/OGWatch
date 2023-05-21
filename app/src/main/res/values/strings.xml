@@ -28,6 +28,7 @@
     <string name="image_stolen_item">Image of stolen item</string>
     <string name="signin">Sign In</string>
     <string name="image_for_sign_in_activity">Image for Sign in activity</string>
-    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="sign_in_with_google">Continue with Google</string>
     <string name="google_logo">Google Logo</string>
+    <string name="web_id">671324227842-8coeg0br7fj5rm0dseb37uun8u8cof29.apps.googleusercontent.com</string>
 </resources>
