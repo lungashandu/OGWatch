@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "671324227842",
+    "firebase_url": "https://og-neighbourhood-watch-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "og-neighbourhood-watch",
     "storage_bucket": "og-neighbourhood-watch.appspot.com"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.example.orientgardenneighbourhoodwatch"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "671324227842-bec2it8845cevrv8936qn5084644mupb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.orientgardenneighbourhoodwatch",
+            "certificate_hash": "65da32249b02bebee44a1a0fafba3d6da28b25a8"
+          }
+        },
+        {
+          "client_id": "671324227842-8coeg0br7fj5rm0dseb37uun8u8cof29.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAFUo8Sy0xmrLuDxc21T2BEqWYycEz2w0E"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "671324227842-3rghth6h5a6apivjp1urov7u4obilhea.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

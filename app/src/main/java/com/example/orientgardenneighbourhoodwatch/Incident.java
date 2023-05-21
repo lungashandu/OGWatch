@@ -1,25 +1,36 @@
 package com.example.orientgardenneighbourhoodwatch;
 
 public class Incident {
-    private final String stolen_item;
-    private final String description;
-    private final String house_number;
+    public String description;
+    public String houseNumber;
+    public String stolenItem;
+    public String imageUrl;
 
-    public Incident(String stole_item, String description, String house_number) {
-        this.stolen_item = stole_item;
-        this.description = description;
-        this.house_number = house_number;
+    public Incident() {
+
     }
 
-    public String getStolenItem() {
-        return stolen_item;
+    public Incident(String description, String houseNumber, String stolenItem, String imageUrl) {
+        this.description = description;
+        this.houseNumber = houseNumber;
+        this.stolenItem = stolenItem;
+        this.imageUrl = imageUrl;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public String getHouse_number() {
-        return house_number;
+    public String getHouseNumber() {
+        return houseNumber;
     }
+
+    public String getStolenItem() {
+        return stolenItem;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
 }
