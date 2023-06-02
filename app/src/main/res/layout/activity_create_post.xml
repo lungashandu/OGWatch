@@ -107,17 +107,24 @@
 
     </LinearLayout>
 
-    <com.example.orientgardenneighbourhoodwatch.SubmitButton
-        android:id="@+id/createPost_button"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="24dp"
         android:layout_weight="1"
-        android:background="@drawable/rounded_button"
-        android:maxHeight="56dp"
-        android:enabled="false"
-        android:text="@string/create_post" />
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.example.orientgardenneighbourhoodwatch.SubmitButton
+            android:id="@+id/createPost_button"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/rounded_button"
+            android:enabled="false"
+            android:text="@string/create_post" />
+
+    </LinearLayout>
 
 </LinearLayout>

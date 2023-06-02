@@ -10,30 +10,26 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OrientGardenNeighbourhoodWatch">
         <activity
+            android:name=".UserProfile"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".LoginActivity"
-            android:exported="true"
-            android:label="@string/signin">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".ViewIncident"
-            android:label="@string/view_incident"
             android:parentActivityName=".MainActivity" />
-
         <activity
             android:name=".CreatePost"
-            android:label="@string/post_incident"
             android:parentActivityName=".MainActivity"
             android:windowSoftInputMode="adjustPan" />
 
@@ -43,9 +39,7 @@
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
-
-        </activity>
+            android:label="@string/app_name" />
 
     </application>
 

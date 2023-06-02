@@ -66,7 +66,7 @@ public class CreatePost extends AppCompatActivity {
             String stolenItem = stolenItemEditText.getText().toString();
             String description = descriptionEditText.getText().toString();
 
-            if (houseNumber.isEmpty() & stolenItem.isEmpty() & description.isEmpty()) {
+            if (houseNumber.isEmpty() || stolenItem.isEmpty() || description.isEmpty()) {
                 Toast.makeText(CreatePost.this, "Please fill all available text fields", Toast.LENGTH_SHORT).show();
 
             } else {

@@ -3,11 +3,15 @@ package com.example.orientgardenneighbourhoodwatch;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -71,6 +75,26 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, CreatePost.class);
             intent.putExtra("count", itemCount);
             MainActivity.this.startActivity(intent);
+        });
+
+        MaterialToolbar toolbar = findViewById(R.id.mainActivityAppBar);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent;
+                switch (item.getItemId()) {
+                    case R.id.account_profile:
+                        intent = new Intent(MainActivity.this, UserProfile.class);
+                        MainActivity.this.startActivity(intent);
+                        return true;
+                    case R.id.logout:
+                        FirebaseAuth.getInstance().signOut();
+                        intent = new Intent(MainActivity.this, LoginActivity.class);
+                        MainActivity.this.startActivity(intent);
+                        return true;
+                }
+                return false;
+            }
         });
     }
 

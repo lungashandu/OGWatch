@@ -11,4 +11,5 @@
     <color name="accent_blue">#4255FE</color>
     <color name="secondary_colour">#43D8AB</color>
     <color name="waring_colour_orange">#EC535A</color>
+    <color name="white_title">#BFFFFFFF</color>
 </resources>

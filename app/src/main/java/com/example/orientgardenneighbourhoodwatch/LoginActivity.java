@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        openMainActivity(user);
+        openMainActivity(user, 1);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 // Sign in success, update UI with the signed-in User's information
                                                 Log.d("LOG_ACTIVITY", "signWithCredential:success");
                                                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                                                openMainActivity(user);
+                                                openMainActivity(user, 0);
                                             }
                                         }
                                     });
@@ -119,9 +119,16 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void openMainActivity(FirebaseUser currentUser) {
-        if (currentUser != null) {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+    // decides which activity is called depending the where the function is called
+    // If the user already exists, switch key = 1
+    // else the switch key = 0
+    private void openMainActivity(FirebaseUser currentUser, int switchKey) {
+        Intent intent;
+        if (currentUser != null && switchKey == 1) {
+            intent = new Intent(LoginActivity.this, MainActivity.class);
+            LoginActivity.this.startActivity(intent);
+        } else if (currentUser != null && switchKey == 0) {
+            intent = new Intent(LoginActivity.this, UserProfile.class);
             LoginActivity.this.startActivity(intent);
         }
     }
