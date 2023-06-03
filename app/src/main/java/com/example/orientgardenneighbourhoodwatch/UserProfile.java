@@ -1,9 +1,8 @@
 package com.example.orientgardenneighbourhoodwatch;
 
-import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -26,7 +25,7 @@ public class UserProfile extends AppCompatActivity {
     private String userName;
     private String userEmail;
     private String userHouseNumber;
-    private String usercode;
+    private final String usercode = FirebaseAuth.getInstance().getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,43 +49,40 @@ public class UserProfile extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("UserDetails", MODE_PRIVATE);
 
         Button submitButton = findViewById(R.id.profile_submitButton);
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // In case there were changes made on the display name and email
-                if (!Objects.equals(userName, nameEditText.getText().toString())) {
-                    userName = nameEditText.getText().toString();
-                }
-                if (!Objects.equals(userEmail, emailEditText.getText().toString())) {
-                    userEmail = emailEditText.getText().toString();
-                }
-                userHouseNumber = houseNumberEditText.getText().toString();
-
-                if (userName.isEmpty() || userEmail.isEmpty() || userHouseNumber.isEmpty()) {
-                    Toast.makeText(UserProfile.this, "Please fill all available text fields", Toast.LENGTH_SHORT).show();
-                } else {
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("House Number", userHouseNumber);
-                    editor.apply();
-
-                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            @SuppressLint("DefaultLocale") String count = String.format("%04d", snapshot.getChildrenCount());
-                            usercode = count + System.currentTimeMillis();
-
-                            User user = new User(userName, userEmail, userHouseNumber);
-
-                            databaseReference.child(usercode).setValue(user);
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                }
+        submitButton.setOnClickListener(view -> {
+            // In case there were changes made on the display name and email
+            if (!Objects.equals(userName, nameEditText.getText().toString())) {
+                userName = nameEditText.getText().toString();
             }
+            if (!Objects.equals(userEmail, emailEditText.getText().toString())) {
+                userEmail = emailEditText.getText().toString();
+            }
+            userHouseNumber = houseNumberEditText.getText().toString();
+
+            if (userName.isEmpty() || userEmail.isEmpty() || userHouseNumber.isEmpty()) {
+                Toast.makeText(UserProfile.this, "Please fill all available text fields", Toast.LENGTH_SHORT).show();
+            } else {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("House Number", userHouseNumber);
+                editor.apply();
+
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        User user = new User(userName, userEmail, userHouseNumber);
+                        databaseReference.child(usercode).setValue(user);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+            Toast.makeText(UserProfile.this, "Profile Saved", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(UserProfile.this, MainActivity.class);
+            UserProfile.this.startActivity(intent);
         });
     }
 

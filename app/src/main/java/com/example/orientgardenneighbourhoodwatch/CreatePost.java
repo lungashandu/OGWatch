@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -33,6 +34,7 @@ public class CreatePost extends AppCompatActivity {
     private Button createPostButton;
     private TextView addImageTextView;
     private LinearLayout selectedImageLL;
+    private final String usercode = FirebaseAuth.getInstance().getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +86,7 @@ public class CreatePost extends AppCompatActivity {
                                     fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                         @Override
                                         public void onSuccess(Uri uri) {
-                                            Incident incident = new Incident(description, houseNumber, stolenItem, uri.toString());
+                                            Incident incident = new Incident(description, houseNumber, stolenItem, uri.toString(), usercode);
                                             databaseReference.child("ogwatchDB").child(incidentID).setValue(incident);
                                         }
                                     });
