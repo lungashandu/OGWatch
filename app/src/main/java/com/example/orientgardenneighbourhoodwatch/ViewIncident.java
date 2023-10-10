@@ -1,7 +1,6 @@
 package com.example.orientgardenneighbourhoodwatch;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,11 +8,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,7 +23,6 @@ import java.util.concurrent.Executors;
 public class ViewIncident extends AppCompatActivity {
     private Incident incident;
     private String imageUrl;
-    private RequestQueue requestQueue;
     private ImageView incidentImage;
 
     @Override
@@ -49,13 +42,12 @@ public class ViewIncident extends AppCompatActivity {
         TextView description = findViewById(R.id.vp_descriptionTextView);
         incidentImage = findViewById(R.id.vp_stolenItemImageView);
 
-        requestQueue = Volley.newRequestQueue(this);
-
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
         executorService.execute(() -> reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NotNull DataSnapshot snapshot) {
                 incident = snapshot.getValue(Incident.class);
+                assert incident != null;
                 stolenItem.setText(incident.getStolenItem());
                 houseNumber.setText(incident.getHouseNumber());
                 description.setText(incident.getDescription());
@@ -73,21 +65,6 @@ public class ViewIncident extends AppCompatActivity {
         incidentImage.setOnClickListener(view -> {
             showImageDialog();
         });
-    }
-
-    private void loadImageFromUrl(String imageUrl) {
-        ImageRequest imageRequest = new ImageRequest(imageUrl, new Response.Listener<Bitmap>() {
-            @Override
-            public void onResponse(Bitmap response) {
-                incidentImage.setImageBitmap(response);
-            }
-        }, 0, 0, null, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                incidentImage.setImageResource(R.drawable.ic_baseline_no_photography_24);
-            }
-        });
-        requestQueue.add(imageRequest);
     }
 
     private void showImageDialog() {
