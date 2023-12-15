@@ -1,12 +1,17 @@
 package com.example.orientgardenneighbourhoodwatch;
 
+import android.Manifest;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -21,6 +26,7 @@ import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.exifinterface.media.ExifInterface;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -42,22 +48,46 @@ public class CreatePost extends AppCompatActivity {
     private String incidentID;
     private DatabaseReference databaseReference;
     private StorageReference storageReference;
-    private static final int PICK_IMAGE = 1;
     private Uri selectedImageURI;
     private Button createPostButton;
     private TextView addImageTextView;
     private LinearLayout selectedImageLL;
+    private String houseNumber, stolenItem, description;
+    private Bitmap rotatedImage;
     private final String usercode = FirebaseAuth.getInstance().getUid();
     private final ActivityResultLauncher<PickVisualMediaRequest> pickMedia = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
         // callback is invoked after the user selects a media item or closes the photo picker.
         if (uri != null) {
+            selectedImageURI = uri;
             Log.d("Photo picker", "Selected URI: " + uri);
+            Context context = getApplicationContext();
+            final int flag = Intent.FLAG_GRANT_READ_URI_PERMISSION;
+            getContentResolver().takePersistableUriPermission(uri, flag);
+            String filePath = getRealPathFromURI(context, uri);
+
+            ContentResolver resolver = context.getContentResolver();
+            try (InputStream stream = resolver.openInputStream(uri)) {
+                if (stream != null) {
+                    rotatedImage = rotateImage(stream, filePath);
+                    handleResponse();
+                }
+
+            } catch (IOException e) {
+                Toast.makeText(this, "Stream = Null", Toast.LENGTH_SHORT).show();
+            }
+
+
         } else {
             Log.d("Photo picker", "No media selected");
         }
     });
-    private String houseNumber, stolenItem, description;
-    private Bitmap rotatedImage;
+    private final ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+        if (isGranted) {
+            launchPhotoPicker();
+        } else {
+            Toast.makeText(this, "Permission rejected", Toast.LENGTH_SHORT).show();
+        }
+    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,15 +110,11 @@ public class CreatePost extends AppCompatActivity {
 
         addImageTextView = findViewById(R.id.add_imageTextView);
         addImageTextView.setOnClickListener(view -> {
-            // Launch the photo picker and let the user choose images.
-            pickMedia.launch(new PickVisualMediaRequest.Builder()
-                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                    .build());
-
-//            Intent imageIntent = new Intent();
-//            imageIntent.setAction(Intent.ACTION_GET_CONTENT);
-//            imageIntent.setType("image/*");
-//            startActivityForResult(Intent.createChooser(imageIntent, "Select Picture"), PICK_IMAGE);
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_MEDIA_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                launchPhotoPicker();
+            } else {
+                requestPermissionLauncher.launch(Manifest.permission.ACCESS_MEDIA_LOCATION);
+            }
         });
 
         createPostButton.setOnClickListener(view -> {
@@ -131,24 +157,17 @@ public class CreatePost extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    private void launchPhotoPicker() {
+        // Launch the photo picker and let the user choose images.
+        pickMedia.launch(new PickVisualMediaRequest.Builder()
+                .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                .build());
+    }
 
-        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            selectedImageURI = data.getData();
-
-            try {
-                rotatedImage = rotateImage(selectedImageURI);
-            } catch (IOException e) {
-                Toast.makeText(CreatePost.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                throw new RuntimeException(e);
-            }
-
-            addImageTextView.setVisibility(View.GONE);
-            selectedImageLL.setVisibility(View.VISIBLE);
-            createPostButton.setEnabled(true);
-        }
+    private void handleResponse() throws IOException {
+        addImageTextView.setVisibility(View.GONE);
+        selectedImageLL.setVisibility(View.VISIBLE);
+        createPostButton.setEnabled(true);
     }
 
     private String getFileExtension(Uri mUri) {
@@ -157,11 +176,24 @@ public class CreatePost extends AppCompatActivity {
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(mUri));
     }
 
-    public Bitmap rotateImage(Uri imageUri) throws IOException {
-        Bitmap bitmap;
-        InputStream inputStream = getContentResolver().openInputStream(imageUri);
-        bitmap = BitmapFactory.decodeStream(inputStream);
-        int orientation = getOrientation(imageUri);
+    private String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] projection = {MediaStore.Images.Media.DATA};
+            cursor = context.getContentResolver().query(contentUri, projection, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
+    private Bitmap rotateImage(InputStream stream, String filePath) throws IOException {
+        Bitmap bitmap = BitmapFactory.decodeStream(stream);
+        int orientation = getOrientation(filePath);
 
         Matrix matrix = new Matrix();
         matrix.postRotate(orientation);
@@ -169,10 +201,11 @@ public class CreatePost extends AppCompatActivity {
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
 
-    private int getOrientation(Uri imageUri) throws IOException {
-        ExifInterface exifInterface = new ExifInterface(imageUri.getPath());
-        int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+    private int getOrientation(String filePath) throws IOException {
+        ExifInterface exifInterface = new ExifInterface(filePath);
         int rotationDegrees = 0;
+        int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+        Log.d("Orientation", "Image Orientation: " + orientation);
         switch (orientation) {
             case ExifInterface.ORIENTATION_ROTATE_90:
                 rotationDegrees = 90;
@@ -189,7 +222,7 @@ public class CreatePost extends AppCompatActivity {
 
     private void uploadImage(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 1000, byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         byte[] data = byteArrayOutputStream.toByteArray();
 
         storageReference = FirebaseStorage.getInstance().getReference().child(System.currentTimeMillis() + "." + getFileExtension(selectedImageURI));
