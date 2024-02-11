@@ -8,6 +8,8 @@
     <color name="black">#131111</color>
     <color name="white">#F5F5F5</color>
     <color name="base_colour">#070930</color>
+    <color name="border_color">#070930</color>
+    <color name="grey">#282828</color>
     <color name="accent_blue">#4255FE</color>
     <color name="secondary_colour">#43D8AB</color>
     <color name="waring_colour_orange">#EC535A</color>

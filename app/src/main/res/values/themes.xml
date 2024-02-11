@@ -28,4 +28,9 @@
     <style name="Theme.OrientGardenNeighbourhoodWatch.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.OrientGardenNeighbourhoodWatch.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Text and border color in light mode. -->
+    <style name="textColor">
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>
