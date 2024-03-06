@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Neighbourhood Watch</string>
+    <string name="app_name">Orient Garden</string>
     <string name="label_stolen_items">Stolen Item(s)</string>
     <string name="complex_number">House No. </string>
     <string name="description">Description:</string>
@@ -29,5 +29,8 @@
     <string name="icon_for_profile">icon for profile</string>
     <string name="logout">logout</string>
     <string name="logout_icon">logout icon</string>
+    <string name="preference_file_key">com.example.orientgardenneighbourhoodwatch.Preference_File_Key</string>
+    <string name="house_number">House Number</string>
+    <string name="no_house_number">0</string>
 
 </resources>

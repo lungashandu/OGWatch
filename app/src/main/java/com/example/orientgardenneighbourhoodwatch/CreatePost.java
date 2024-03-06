@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -51,6 +52,7 @@ public class CreatePost extends AppCompatActivity {
     private Uri selectedImageURI;
     private Button createPostButton;
     private TextView addImageTextView;
+    private SharedPreferences sharedPreferences;
     private LinearLayout selectedImageLL;
     private String houseNumber, stolenItem, description;
     private Bitmap rotatedImage;
@@ -107,6 +109,10 @@ public class CreatePost extends AppCompatActivity {
         EditText stolenItemEditText = findViewById(R.id.stolenItem_editText);
         EditText descriptionEditText = findViewById(R.id.description_editText);
         createPostButton = findViewById(R.id.createPost_button);
+
+        sharedPreferences = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
+        houseNumber = sharedPreferences.getString(getString(R.string.house_number), getString(R.string.no_house_number));
+        houseNumberEditText.setText(houseNumber);
 
         addImageTextView = findViewById(R.id.add_imageTextView);
         addImageTextView.setOnClickListener(view -> {

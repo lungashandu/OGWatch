@@ -32,6 +32,9 @@ public class UserProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
+        String houseNumber = sharedPreferences.getString(getString(R.string.house_number), getString(R.string.no_house_number));
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             userName = user.getDisplayName();
@@ -44,9 +47,8 @@ public class UserProfile extends AppCompatActivity {
 
         nameEditText.setText(userName);
         emailEditText.setText(userEmail);
+        houseNumberEditText.setText(houseNumber);
         houseNumberEditText.requestFocus();
-
-        SharedPreferences sharedPreferences = getSharedPreferences("UserDetails", MODE_PRIVATE);
 
         Button submitButton = findViewById(R.id.profile_submitButton);
         submitButton.setOnClickListener(view -> {
@@ -63,7 +65,7 @@ public class UserProfile extends AppCompatActivity {
                 Toast.makeText(UserProfile.this, "Please fill all available text fields", Toast.LENGTH_SHORT).show();
             } else {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("House Number", userHouseNumber);
+                editor.putString(getString(R.string.house_number), userHouseNumber);
                 editor.apply();
 
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
