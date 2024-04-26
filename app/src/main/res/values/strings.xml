@@ -32,5 +32,7 @@
     <string name="preference_file_key">com.example.orientgardenneighbourhoodwatch.Preference_File_Key</string>
     <string name="house_number">House Number</string>
     <string name="no_house_number">0</string>
+    <string name="login_imageview_contentdescription">Application logo</string>
+    <string name="login_imagebutton_contentdescription">Google signin ImageButton</string>
 
 </resources>

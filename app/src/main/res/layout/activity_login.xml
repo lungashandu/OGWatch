@@ -1,42 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/login_background">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/app_image"
+        android:layout_width="168dp"
+        android:layout_height="168dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:contentDescription="@string/login_imageview_contentdescription"
+        android:src="@mipmap/ic_launcher" />
+
+    <ImageButton
+        android:id="@+id/signin_imagebutton"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/rounded_image_button"
+        android:contentDescription="@string/login_imagebutton_contentdescription"
+        android:src="@drawable/googleg_standard_color_18" />
+
+    <TextView
+        android:id="@+id/SignIntextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="40dp"
-        android:orientation="vertical"
-        tools:context=".LoginActivity"
-        tools:ignore="UselessParent">
+        android:layout_above="@id/signin_imagebutton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:text="@string/sign_in_with_google"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
-        <ImageView
-            android:id="@+id/loging_ImageView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:contentDescription="@string/image_for_sign_in_activity" />
-
-        <RelativeLayout
-            android:id="@+id/signIn_RelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="@drawable/common_google_signin_btn_text_dark_normal"
-            android:elevation="4dp">
-
-            <TextView
-                android:id="@+id/SignIntextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/sign_in_with_google"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-        </RelativeLayout>
-
-    </LinearLayout>
-</FrameLayout>
+</RelativeLayout>

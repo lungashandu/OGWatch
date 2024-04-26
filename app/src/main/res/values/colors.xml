@@ -14,4 +14,5 @@
     <color name="secondary_colour">#43D8AB</color>
     <color name="waring_colour_orange">#EC535A</color>
     <color name="white_title">#BFFFFFFF</color>
+    <color name="login_background">#0F102C</color>
 </resources>
