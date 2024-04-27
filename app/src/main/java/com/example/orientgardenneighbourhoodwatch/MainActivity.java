@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -39,29 +42,48 @@ public class MainActivity extends AppCompatActivity {
         ListView incidentListView = findViewById(R.id.main_ListView);
         incidentListView.setAdapter(adapter);
 
+        TextView emptyStateTextView = findViewById(R.id.emptyState);
 
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference("ogwatchDB");
+        InternetConnectivityUtil internetConnectivityUtil = new InternetConnectivityUtil();
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NotNull DataSnapshot snapshot) {
-                incidentsList.clear();
-                numberOfItems = (int) snapshot.getChildrenCount();
-                itemCount = Integer.toString(numberOfItems + 1);
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Incident incident = dataSnapshot.getValue(Incident.class);
-                    incidentsList.add(incident);
+
+        if (internetConnectivityUtil.isInternetConnected(this)) {
+
+            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+            DatabaseReference databaseReference = firebaseDatabase.getReference("ogwatchDB");
+
+            ProgressBar progressBar = findViewById(R.id.loading_spinner);
+
+
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NotNull DataSnapshot snapshot) {
+                    incidentsList.clear();
+                    numberOfItems = (int) snapshot.getChildrenCount();
+                    itemCount = Integer.toString(numberOfItems + 1);
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        Incident incident = dataSnapshot.getValue(Incident.class);
+                        incidentsList.add(incident);
+                    }
+                    Collections.reverse(incidentsList);
+                    progressBar.setVisibility(View.GONE);
+                    adapter.notifyDataSetChanged();
                 }
-                Collections.reverse(incidentsList);
-                adapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onCancelled(@NotNull DatabaseError error) {
-                Log.e(MainActivity.class.getSimpleName(), "Failed to read value", error.toException());
-            }
-        });
+                @Override
+                public void onCancelled(@NotNull DatabaseError error) {
+                    progressBar.setVisibility(View.GONE);
+                    Log.e(MainActivity.class.getSimpleName(), "Failed to read value", error.toException());
+                    emptyStateTextView.setText(R.string.readErrorMessage);
+                }
+            });
+        } else {
+            ProgressBar progressBar = findViewById(R.id.loading_spinner);
+            progressBar.setVisibility(View.GONE);
+
+            emptyStateTextView.setText(R.string.noConnection);
+        }
+
 
         incidentListView.setOnItemClickListener((adapterView, view, position, l) -> {
             String databaseKey = getPositionOfItem(position);
@@ -103,4 +125,5 @@ public class MainActivity extends AppCompatActivity {
     private String getPositionOfItem(int selectedItem) {
         return Integer.toString(numberOfItems - selectedItem);
     }
+
 }

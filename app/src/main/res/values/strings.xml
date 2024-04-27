@@ -34,5 +34,7 @@
     <string name="no_house_number">0</string>
     <string name="login_imageview_contentdescription">Application logo</string>
     <string name="login_imagebutton_contentdescription">Google signin ImageButton</string>
+    <string name="noConnection">No Internet Connection</string>
+    <string name="readErrorMessage">Error: Failure reading data</string>
 
 </resources>
