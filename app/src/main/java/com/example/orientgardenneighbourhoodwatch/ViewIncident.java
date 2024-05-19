@@ -2,7 +2,9 @@ package com.example.orientgardenneighbourhoodwatch;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +39,8 @@ public class ViewIncident extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference(path);
 
+        ProgressBar progressBar = findViewById(R.id.viewIncidentProgressBar);
+
         TextView stolenItem = findViewById(R.id.vp_stolenItemTextView);
         TextView houseNumber = findViewById(R.id.vp_houseNumberTextView);
         TextView description = findViewById(R.id.vp_descriptionTextView);
@@ -52,6 +56,8 @@ public class ViewIncident extends AppCompatActivity {
                 houseNumber.setText(incident.getHouseNumber());
                 description.setText(incident.getDescription());
                 imageUrl = incident.getImageUrl();
+
+                progressBar.setVisibility(View.GONE);
 
                 Picasso.get().load(imageUrl).into(incidentImage);
             }

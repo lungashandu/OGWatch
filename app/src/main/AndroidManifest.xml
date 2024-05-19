@@ -28,6 +28,7 @@
         <activity
             android:name=".ViewIncident"
             android:parentActivityName=".MainActivity" />
+
         <activity
             android:name=".CreatePost"
             android:parentActivityName=".MainActivity"

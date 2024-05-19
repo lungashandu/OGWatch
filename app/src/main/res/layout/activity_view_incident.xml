@@ -37,15 +37,28 @@
                 android:textStyle="bold"
                 tools:text="Gate Motor" />
 
-            <ImageView
-                android:id="@+id/vp_stolenItemImageView"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="306dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:contentDescription="@string/image_stolen_item"
-                android:scaleType="centerCrop" />
+                android:layout_marginEnd="16dp">
+
+                <ProgressBar
+                    android:id="@+id/viewIncidentProgressBar"
+                    style="@style/Widget.AppCompat.ProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true" />
+
+                <ImageView
+                    android:id="@+id/vp_stolenItemImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/image_stolen_item"
+                    android:scaleType="centerCrop" />
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
