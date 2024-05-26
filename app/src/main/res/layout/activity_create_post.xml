@@ -115,7 +115,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.example.orientgardenneighbourhoodwatch.SubmitButton
+        <com.sourcream.orientgardenneighbourhoodwatch.SubmitButton
             android:id="@+id/createPost_button"
             android:layout_width="match_parent"
             android:layout_height="48dp"

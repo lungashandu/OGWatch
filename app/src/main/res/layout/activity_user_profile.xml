@@ -39,6 +39,7 @@
             android:background="@drawable/rounded_edit_text"
             android:hint="@string/user_email"
             android:inputType="textEmailAddress"
+            android:enabled="false"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:singleLine="true"
@@ -54,10 +55,22 @@
             android:background="@drawable/rounded_edit_text"
             android:hint="@string/complex_number"
             android:inputType="number"
+            android:maxLength="2"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:singleLine="true"
             tools:ignore="Autofill" />
+
+        <TextView
+            android:id="@+id/warning_message_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/house_number_not_available"
+            android:textAlignment="center"
+            android:textColor="@color/waring_colour_orange" />
 
     </LinearLayout>
 
@@ -69,7 +82,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.example.orientgardenneighbourhoodwatch.SubmitButton
+        <com.sourcream.orientgardenneighbourhoodwatch.SubmitButton
             android:id="@+id/profile_submitButton"
             android:layout_width="match_parent"
             android:layout_height="48dp"

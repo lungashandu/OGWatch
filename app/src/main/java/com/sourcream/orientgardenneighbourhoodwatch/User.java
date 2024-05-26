@@ -1,4 +1,4 @@
-package com.example.orientgardenneighbourhoodwatch;
+package com.sourcream.orientgardenneighbourhoodwatch;
 
 public class User {
     public String displayName;

@@ -1,4 +1,4 @@
-package com.example.orientgardenneighbourhoodwatch;
+package com.sourcream.orientgardenneighbourhoodwatch;
 
 import android.Manifest;
 import android.content.ContentResolver;

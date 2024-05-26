@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:671324227842:android:06b11a3a2f3045729eda1b",
         "android_client_info": {
-          "package_name": "com.example.orientgardenneighbourhoodwatch"
+          "package_name": "com.sourcream.orientgardenneighbourhoodwatch"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "671324227842-bec2it8845cevrv8936qn5084644mupb.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.orientgardenneighbourhoodwatch",
+            "package_name": "com.sourcream.orientgardenneighbourhoodwatch",
             "certificate_hash": "65da32249b02bebee44a1a0fafba3d6da28b25a8"
           }
         },

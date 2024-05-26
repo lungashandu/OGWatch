@@ -1,10 +1,12 @@
-package com.example.orientgardenneighbourhoodwatch;
+package com.sourcream.orientgardenneighbourhoodwatch;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,6 +29,10 @@ public class UserProfile extends AppCompatActivity {
     private String userHouseNumber;
     private final String usercode = FirebaseAuth.getInstance().getUid();
 
+    private TextView warningMessageTextView;
+    private EditText houseNumberEditText;
+    private String newHouseNumber;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,14 +49,18 @@ public class UserProfile extends AppCompatActivity {
 
         EditText nameEditText = findViewById(R.id.userNameEditText);
         EditText emailEditText = findViewById(R.id.userEmailEditText);
-        EditText houseNumberEditText = findViewById(R.id.ProfileHouseNumberEditText);
+        houseNumberEditText = findViewById(R.id.ProfileHouseNumberEditText);
+        warningMessageTextView = findViewById(R.id.warning_message_textview);
+
+        Button submitButton = findViewById(R.id.profile_submitButton);
 
         nameEditText.setText(userName);
         emailEditText.setText(userEmail);
         houseNumberEditText.setText(houseNumber);
         houseNumberEditText.requestFocus();
+        warningMessageTextView.setVisibility(View.GONE);
 
-        Button submitButton = findViewById(R.id.profile_submitButton);
+
         submitButton.setOnClickListener(view -> {
             // In case there were changes made on the display name and email
             if (!Objects.equals(userName, nameEditText.getText().toString())) {
@@ -87,6 +97,5 @@ public class UserProfile extends AppCompatActivity {
             UserProfile.this.startActivity(intent);
         });
     }
-
 
 }
