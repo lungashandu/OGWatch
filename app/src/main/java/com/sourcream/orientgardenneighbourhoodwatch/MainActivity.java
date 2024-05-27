@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onDataChange(@NotNull DataSnapshot snapshot) {
                     incidentsList.clear();
                     numberOfItems = (int) snapshot.getChildrenCount();
+                    Log.d("MainActivity", "Number of items: " + numberOfItems);
                     itemCount = Integer.toString(numberOfItems + 1);
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         Incident incident = dataSnapshot.getValue(Incident.class);
