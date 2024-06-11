@@ -19,6 +19,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +53,7 @@ public class CreatePost extends AppCompatActivity {
     private Uri selectedImageURI;
     private Button createPostButton;
     private TextView addImageTextView;
+    private ProgressBar createPostProgressBar;
     private SharedPreferences sharedPreferences;
     private LinearLayout selectedImageLL;
     private String houseNumber, stolenItem, description;
@@ -70,6 +72,9 @@ public class CreatePost extends AppCompatActivity {
             ContentResolver resolver = context.getContentResolver();
             try (InputStream stream = resolver.openInputStream(uri)) {
                 if (stream != null) {
+
+                    addImageTextView.setVisibility(View.GONE);
+                    createPostProgressBar.setVisibility(View.VISIBLE);
                     rotatedImage = rotateImage(stream, filePath);
                     handleResponse();
                 }
@@ -98,6 +103,8 @@ public class CreatePost extends AppCompatActivity {
 
         selectedImageLL = findViewById(R.id.selected_image_LinearLayout);
         selectedImageLL.setVisibility(View.GONE);
+        createPostProgressBar = findViewById(R.id.createPost_progressbar);
+        createPostProgressBar.setVisibility(View.GONE);
 
         Intent intentIncident = getIntent();
         incidentID = intentIncident.getStringExtra("count");
@@ -171,7 +178,7 @@ public class CreatePost extends AppCompatActivity {
     }
 
     private void handleResponse() throws IOException {
-        addImageTextView.setVisibility(View.GONE);
+        createPostProgressBar.setVisibility(View.GONE);
         selectedImageLL.setVisibility(View.VISIBLE);
         createPostButton.setEnabled(true);
     }
@@ -228,7 +235,7 @@ public class CreatePost extends AppCompatActivity {
 
     private void uploadImage(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream);
         byte[] data = byteArrayOutputStream.toByteArray();
 
         storageReference = FirebaseStorage.getInstance().getReference().child(System.currentTimeMillis() + "." + getFileExtension(selectedImageURI));

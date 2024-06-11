@@ -94,6 +94,13 @@
 
         </LinearLayout>
 
+        <ProgressBar
+            android:id="@+id/createPost_progressbar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp" />
+
         <TextView
             android:id="@+id/add_imageTextView"
             android:layout_width="wrap_content"
