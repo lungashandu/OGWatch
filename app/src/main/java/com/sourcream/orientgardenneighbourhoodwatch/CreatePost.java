@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
@@ -73,9 +72,11 @@ public class CreatePost extends AppCompatActivity {
             try (InputStream stream = resolver.openInputStream(uri)) {
                 if (stream != null) {
 
+                    Bitmap downsampledBitmap = DownsamplingImage.decodeSampleBitmapFromInputStream(filePath);
+
                     addImageTextView.setVisibility(View.GONE);
                     createPostProgressBar.setVisibility(View.VISIBLE);
-                    rotatedImage = rotateImage(stream, filePath);
+                    rotatedImage = rotateImage(downsampledBitmap, filePath);
                     handleResponse();
                 }
 
@@ -204,8 +205,8 @@ public class CreatePost extends AppCompatActivity {
         }
     }
 
-    private Bitmap rotateImage(InputStream stream, String filePath) throws IOException {
-        Bitmap bitmap = BitmapFactory.decodeStream(stream);
+    private Bitmap rotateImage(Bitmap bitmap, String filePath) throws IOException {
+        // Bitmap bitmap = BitmapFactory.decodeStream(stream);
         int orientation = getOrientation(filePath);
 
         Matrix matrix = new Matrix();
