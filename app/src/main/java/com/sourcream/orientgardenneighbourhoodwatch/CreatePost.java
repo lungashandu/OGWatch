@@ -71,13 +71,10 @@ public class CreatePost extends AppCompatActivity {
             ContentResolver resolver = context.getContentResolver();
             try (InputStream stream = resolver.openInputStream(uri)) {
                 if (stream != null) {
-
                     Bitmap downsampledBitmap = DownsamplingImage.decodeSampleBitmapFromInputStream(filePath);
 
-                    addImageTextView.setVisibility(View.GONE);
-                    createPostProgressBar.setVisibility(View.VISIBLE);
                     rotatedImage = rotateImage(downsampledBitmap, filePath);
-                    handleResponse();
+                    handleSuccessfulResponse();
                 }
 
             } catch (IOException e) {
@@ -126,6 +123,7 @@ public class CreatePost extends AppCompatActivity {
         addImageTextView.setOnClickListener(view -> {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_MEDIA_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 launchPhotoPicker();
+                processingResponse();
             } else {
                 requestPermissionLauncher.launch(Manifest.permission.ACCESS_MEDIA_LOCATION);
             }
@@ -178,10 +176,15 @@ public class CreatePost extends AppCompatActivity {
                 .build());
     }
 
-    private void handleResponse() throws IOException {
+    private void handleSuccessfulResponse() throws IOException {
         createPostProgressBar.setVisibility(View.GONE);
         selectedImageLL.setVisibility(View.VISIBLE);
         createPostButton.setEnabled(true);
+    }
+
+    private void processingResponse() {
+        addImageTextView.setVisibility(View.GONE);
+        createPostProgressBar.setVisibility(View.VISIBLE);
     }
 
     private String getFileExtension(Uri mUri) {
