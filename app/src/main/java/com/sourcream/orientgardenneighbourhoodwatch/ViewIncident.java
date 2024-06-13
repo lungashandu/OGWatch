@@ -2,6 +2,7 @@ package com.sourcream.orientgardenneighbourhoodwatch;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -46,6 +47,7 @@ public class ViewIncident extends AppCompatActivity {
         TextView description = findViewById(R.id.vp_descriptionTextView);
         incidentImage = findViewById(R.id.vp_stolenItemImageView);
 
+
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         executorService.execute(() -> reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -57,13 +59,14 @@ public class ViewIncident extends AppCompatActivity {
                 description.setText(incident.getDescription());
                 imageUrl = incident.getImageUrl();
 
-                progressBar.setVisibility(View.GONE);
-
                 Picasso.get().load(imageUrl).into(incidentImage);
+                progressBar.setVisibility(View.GONE);
             }
-
             @Override
             public void onCancelled(@NotNull DatabaseError error) {
+                Log.e("View Incident", "Error reading data" + error);
+                stolenItem.setText(getString(R.string.readErrorMessage));
+                description.setText(getString(R.string.noDataContext));
                 incidentImage.setImageResource(R.drawable.ic_baseline_no_photography_24);
             }
         }));
