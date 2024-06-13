@@ -6,12 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 public class ViewImageFragment extends DialogFragment {
-    private ImageView imageView;
 
     public ViewImageFragment() {
     }
@@ -30,12 +32,13 @@ public class ViewImageFragment extends DialogFragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        imageView = view.findViewById(R.id.stolen_item_enlarged_imageView);
+        ImageView imageView = view.findViewById(R.id.stolen_item_enlarged_imageView);
+        assert getArguments() != null;
         String imageUrl = getArguments().getString("imageUrl", null);
-        getDialog().setTitle("Stolen Item");
+        Objects.requireNonNull(getDialog()).setTitle("Stolen Item");
         Picasso.get().load(imageUrl).into(imageView);
     }
 }
