@@ -11,7 +11,7 @@ android {
         applicationId "com.sourcream.orientgardenneighbourhoodwatch"
         minSdkVersion 31
         targetSdkVersion 34
-        versionCode 3
+        versionCode 4
         versionName "1.0.2 beta"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
