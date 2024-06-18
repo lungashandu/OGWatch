@@ -10,7 +10,7 @@
         android:layout_height="168dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="108dp"
         android:contentDescription="@string/login_imageview_contentdescription"
         android:src="@mipmap/ic_launcher" />
 

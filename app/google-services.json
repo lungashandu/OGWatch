@@ -8,43 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:671324227842:android:06b11a3a2f3045729eda1b",
-        "android_client_info": {
-          "package_name": "com.example.orientgardenneighbourhoodwatch"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "671324227842-bec2it8845cevrv8936qn5084644mupb.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.orientgardenneighbourhoodwatch",
-            "certificate_hash": "65da32249b02bebee44a1a0fafba3d6da28b25a8"
-          }
-        },
-        {
-          "client_id": "671324227842-8coeg0br7fj5rm0dseb37uun8u8cof29.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAFUo8Sy0xmrLuDxc21T2BEqWYycEz2w0E"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "671324227842-3rghth6h5a6apivjp1urov7u4obilhea.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:671324227842:android:0bcda312b73f2ea49eda1b",
         "android_client_info": {
           "package_name": "com.sourcream.orientgardenneighbourhoodwatch"

@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         signInRequest = BeginSignInRequest.builder()
                 .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                         .setSupported(true)
-                        .setFilterByAuthorizedAccounts(false)
+                        .setFilterByAuthorizedAccounts(true)
                         .setServerClientId(getString(R.string.default_web_client_id))
                         .build())
                 .build();
