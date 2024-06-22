@@ -35,8 +35,9 @@
     <string name="login_imageview_contentdescription">Application logo</string>
     <string name="login_imagebutton_contentdescription">Google signin ImageButton</string>
     <string name="noConnection">No Internet Connection</string>
-    <string name="readErrorMessage">Error: Failure reading data</string>
+    <string name="readErrorMessage">Error: Failure Reading Data</string>
     <string name="house_number_not_available">House number already registered to another user</string>
     <string name="noDataContext">Check your internet connection. Restart the application.</string>
+    <string name="refreshImageViewDesc">refresh icon, when pressed the activity reloads</string>
 
 </resources>

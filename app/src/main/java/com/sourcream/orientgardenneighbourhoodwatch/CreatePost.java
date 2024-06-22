@@ -134,38 +134,46 @@ public class CreatePost extends AppCompatActivity {
             stolenItem = stolenItemEditText.getText().toString();
             description = descriptionEditText.getText().toString();
 
-            if (houseNumber.isEmpty() || stolenItem.isEmpty() || description.isEmpty()) {
-                Toast.makeText(CreatePost.this, "Please fill all available text fields", Toast.LENGTH_SHORT).show();
+            InternetConnectivityUtil internetConnectivityUtil = new InternetConnectivityUtil();
+            if (internetConnectivityUtil.isInternetConnected(getApplicationContext())) {
+
+                if (houseNumber.isEmpty() || stolenItem.isEmpty() || description.isEmpty()) {
+                    Toast.makeText(CreatePost.this, "Please fill all available text fields", Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    ExecutorService executorService = Executors.newSingleThreadExecutor();
+                    executorService.execute(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            if (selectedImageURI != null) {
+                                uploadImage(rotatedImage);
+                            }
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    houseNumberEditText.setText("");
+                                    stolenItemEditText.setText("");
+                                    descriptionEditText.setText("");
+                                    Toast.makeText(CreatePost.this, "Incident Added Successfully", Toast.LENGTH_SHORT).show();
+
+                                    Intent intent = new Intent(CreatePost.this, MainActivity.class);
+                                    CreatePost.this.startActivity(intent);
+                                }
+                            });
+
+                        }
+                    });
+                }
 
             } else {
-
-                ExecutorService executorService = Executors.newSingleThreadExecutor();
-                executorService.execute(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        if (selectedImageURI != null) {
-                            uploadImage(rotatedImage);
-                        }
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                houseNumberEditText.setText("");
-                                stolenItemEditText.setText("");
-                                descriptionEditText.setText("");
-                                Toast.makeText(CreatePost.this, "Incident Added Successfully", Toast.LENGTH_SHORT).show();
-
-                                Intent intent = new Intent(CreatePost.this, MainActivity.class);
-                                CreatePost.this.startActivity(intent);
-                            }
-                        });
-
-                    }
-                });
+                Toast.makeText(getApplicationContext(), R.string.noConnection, Toast.LENGTH_SHORT).show();
             }
 
         });
+
 
     }
 
@@ -178,6 +186,7 @@ public class CreatePost extends AppCompatActivity {
 
     private void handleSuccessfulResponse() throws IOException {
         createPostProgressBar.setVisibility(View.GONE);
+        addImageTextView.setVisibility(View.GONE);
         selectedImageLL.setVisibility(View.VISIBLE);
         createPostButton.setEnabled(true);
     }

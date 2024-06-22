@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -53,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         signInRequest = BeginSignInRequest.builder()
                 .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                         .setSupported(true)
-                        .setFilterByAuthorizedAccounts(true)
+                        .setFilterByAuthorizedAccounts(false)
                         .setServerClientId(getString(R.string.default_web_client_id))
                         .build())
                 .build();
@@ -95,26 +96,32 @@ public class LoginActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                oneTapClient.beginSignIn(signInRequest)
-                        .addOnSuccessListener(LoginActivity.this, new OnSuccessListener<BeginSignInResult>() {
-                            @Override
-                            public void onSuccess(BeginSignInResult result) {
-                                //                                            startIntentSenderForResult(
+                InternetConnectivityUtil internetConnectivityUtil = new InternetConnectivityUtil();
+                if (internetConnectivityUtil.isInternetConnected(getApplicationContext())) {
+                    oneTapClient.beginSignIn(signInRequest)
+                            .addOnSuccessListener(LoginActivity.this, new OnSuccessListener<BeginSignInResult>() {
+                                @Override
+                                public void onSuccess(BeginSignInResult result) {
+                                    //                                            startIntentSenderForResult(
 //                                                    result.getPendingIntent().getIntentSender(), REQ_ONE_TAP,
 //                                                    null, 0, 0, 0);
-                                IntentSenderRequest intentSenderRequest = new IntentSenderRequest
-                                        .Builder(result.getPendingIntent().getIntentSender()).build();
-                                activityResultLauncher.launch(intentSenderRequest);
-                            }
-                        })
-                        .addOnFailureListener(LoginActivity.this, new OnFailureListener() {
-                            @Override
-                            public void onFailure(Exception e) {
-                                // No saved credentials found. Launch the One Tap sign-up flow, or
-                                // do nothing and continue presenting the signed-out UI.
-                                Log.d("TAG", e.getLocalizedMessage());
-                            }
-                        });
+                                    IntentSenderRequest intentSenderRequest = new IntentSenderRequest
+                                            .Builder(result.getPendingIntent().getIntentSender()).build();
+                                    activityResultLauncher.launch(intentSenderRequest);
+                                }
+                            })
+                            .addOnFailureListener(LoginActivity.this, new OnFailureListener() {
+                                @Override
+                                public void onFailure(Exception e) {
+                                    // No saved credentials found. Launch the One Tap sign-up flow, or
+                                    // do nothing and continue presenting the signed-out UI.
+                                    Log.d("TAG", e.getLocalizedMessage());
+                                }
+                            });
+                } else {
+                    TextView signInText = findViewById(R.id.signInTextView);
+                    signInText.setText(R.string.noConnection);
+                }
             }
         });
     }

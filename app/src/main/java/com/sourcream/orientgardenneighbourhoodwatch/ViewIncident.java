@@ -59,8 +59,15 @@ public class ViewIncident extends AppCompatActivity {
                 description.setText(incident.getDescription());
                 imageUrl = incident.getImageUrl();
 
-                Picasso.get().load(imageUrl).into(incidentImage);
-                progressBar.setVisibility(View.GONE);
+                InternetConnectivityUtil internetConnectivityUtil = new InternetConnectivityUtil();
+                if (internetConnectivityUtil.isInternetConnected(getApplicationContext())) {
+                    Picasso.get().load(imageUrl).into(incidentImage);
+                    progressBar.setVisibility(View.GONE);
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                    incidentImage.setImageResource(R.drawable.ic_baseline_no_photography_24);
+                    incidentImage.setClickable(false);
+                }
             }
             @Override
             public void onCancelled(@NotNull DatabaseError error) {

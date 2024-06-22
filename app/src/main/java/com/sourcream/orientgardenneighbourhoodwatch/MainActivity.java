@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,7 +44,12 @@ public class MainActivity extends AppCompatActivity {
         ListView incidentListView = findViewById(R.id.main_ListView);
         incidentListView.setAdapter(adapter);
 
+        ProgressBar progressBar = findViewById(R.id.loading_spinner);
+        RelativeLayout feedbackRelativeLayout = findViewById(R.id.feedbackRelativeLayout);
         TextView emptyStateTextView = findViewById(R.id.emptyState);
+        ImageView refreshImageView = findViewById(R.id.refreshImageView);
+
+        feedbackRelativeLayout.setVisibility(View.GONE);
 
         InternetConnectivityUtil internetConnectivityUtil = new InternetConnectivityUtil();
 
@@ -51,9 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
             DatabaseReference databaseReference = firebaseDatabase.getReference("ogwatchDB");
-
-            ProgressBar progressBar = findViewById(R.id.loading_spinner);
-
 
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -74,17 +78,23 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onCancelled(@NotNull DatabaseError error) {
                     progressBar.setVisibility(View.GONE);
-                    Log.e(MainActivity.class.getSimpleName(), "Failed to read value", error.toException());
+                    feedbackRelativeLayout.setVisibility(View.VISIBLE);
                     emptyStateTextView.setText(R.string.readErrorMessage);
                 }
             });
         } else {
-            ProgressBar progressBar = findViewById(R.id.loading_spinner);
-            progressBar.setVisibility(View.GONE);
 
+            progressBar.setVisibility(View.GONE);
+            feedbackRelativeLayout.setVisibility(View.VISIBLE);
             emptyStateTextView.setText(R.string.noConnection);
         }
 
+        refreshImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refreshActivity();
+            }
+        });
 
         incidentListView.setOnItemClickListener((adapterView, view, position, l) -> {
             String databaseKey = getPositionOfItem(position);
@@ -121,10 +131,22 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        moveTaskToBack(true);
+    }
+
     // Due to the listview being reversed, the position of the selected item is not the same as
     // the database key for each child.
     private String getPositionOfItem(int selectedItem) {
         return Integer.toString(numberOfItems - selectedItem);
+    }
+
+    private void refreshActivity() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
     }
 
 }
