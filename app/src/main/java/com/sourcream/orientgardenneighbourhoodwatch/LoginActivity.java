@@ -126,6 +126,12 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
+    }
+
     // decides which activity is called depending the where the function is called
     // If the user already exists, switch key = 1
     // else the switch key = 0
